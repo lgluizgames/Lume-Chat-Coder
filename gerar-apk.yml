@@ -1,0 +1,41 @@
+name: Gerar APK Lume Chat Coder V04
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+jobs:
+  android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Baixar projeto Lume
+        uses: actions/checkout@v4
+      - name: Baixar motor de IA (llama.cpp)
+        uses: actions/checkout@v4
+        with:
+          repository: ggml-org/llama.cpp
+          path: llama-src
+          fetch-depth: 1
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Instalar Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Instalar SDK e ferramentas nativas
+        run: |
+          sdkmanager --install "platforms;android-36" "ndk;29.0.13113456" "cmake;3.31.6"
+      - name: Preparar Lume Chat
+        run: bash scripts/prepare.sh
+      - name: Compilar APK Android
+        run: |
+          cd llama-src/examples/llama.android
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:assembleDebug --stacktrace
+      - name: Disponibilizar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LUME-CHAT-CODER-V04-APK
+          path: llama-src/examples/llama.android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error

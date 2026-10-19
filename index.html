@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="Lume Chat: conversas organizadas e portáveis no Android.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>Lume Chat Coder — IA Local</title>
+  <style>
+    :root{font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;color:#33312e;background:#f8f7f3;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0;min-height:100dvh}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}
+    button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #d99b7b;outline-offset:2px}
+    .app{display:grid;grid-template-columns:272px minmax(0,1fr);height:100dvh;overflow:hidden}
+    .side{background:#f0eee7;border-right:1px solid #e4e0d7;display:flex;flex-direction:column;min-height:0;z-index:20}
+    .sidehead{padding:23px 15px 12px}.brand{display:flex;gap:10px;align-items:center;font-size:20px;font-weight:750;letter-spacing:-.6px;margin:0 7px 22px}.logo{display:inline-grid;place-items:center;background:#b66543;color:white;width:31px;height:31px;border-radius:11px;font-size:21px;transform:rotate(-9deg)}
+    .primary{border:1px solid #d9d4c9;background:#fffdf9;color:#48423b;border-radius:10px;min-height:42px;padding:9px 13px;font-weight:620;text-align:left;display:flex;gap:9px;align-items:center;width:100%;box-shadow:0 1px 2px #00000008}
+    .primary:hover,.item:hover,.plain:hover{background:#e9e4db}.search{width:100%;background:transparent;border:1px solid #d9d4c9;border-radius:9px;padding:10px 12px;margin-top:12px;color:#333}
+    .navtitle{font-size:12px;color:#8b847a;text-transform:uppercase;letter-spacing:.65px;margin:12px 16px 4px}.chats{overflow:auto;flex:1;min-height:30px;padding:0 8px}.item{border:0;background:transparent;color:#524b45;width:100%;text-align:left;border-radius:9px;padding:10px 12px;display:block;margin:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}.item.active{background:#ded9cf;color:#322f2d;font-weight:650}
+    .sidefoot{border-top:1px solid #e2ddd3;padding:12px;display:grid;gap:6px}.plain{padding:9px 10px;border:0;background:transparent;border-radius:8px;text-align:left;color:#625950;font-size:13px;display:flex;gap:9px;align-items:center}
+    .main{min-width:0;display:flex;flex-direction:column;background:#faf9f6}.top{height:62px;padding:0 24px;border-bottom:1px solid #eeece6;display:flex;align-items:center;gap:12px;flex-shrink:0}.top h1{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px;font-weight:600;margin:0;color:#534d47}.top button{border:0;background:none;color:#797067;padding:8px;border-radius:8px}.top button:hover{background:#eeeae4}.menu{display:none!important}.tag{font-size:11px;background:#f0e7de;border-radius:20px;padding:6px 9px;color:#956347}
+    .scroller{flex:1;overflow-y:auto;min-height:0;overscroll-behavior:contain}.messages{width:min(100%,790px);margin:auto;padding:30px 22px 90px}.message{display:flex;gap:14px;margin:24px 0}.avatar{flex:0 0 30px;width:30px;height:30px;border-radius:11px;background:#c57550;color:white;display:grid;place-items:center;font-weight:800}.message.user .avatar{background:#dad6ce;color:#655d54}.bubble{flex:1;min-width:0;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}.message.user .bubble{background:#f0ede7;border:1px solid #ede6dc;border-radius:15px;padding:13px 16px}.msghead{font-size:12px;letter-spacing:.2px;font-weight:750;margin:0 0 5px;color:#8e6756}
+    .welcome{margin:calc(max(40px,12vh)) auto 20px;max-width:630px;padding:0 22px}.welcome .sun{font-size:38px;color:#bb6848}.welcome h2{font-family:Georgia,serif;letter-spacing:-1.2px;font-size:clamp(25px,5vw,36px);line-height:1.25;font-weight:500;color:#53443c;margin:20px 0}.welcome p{line-height:1.7;color:#80766d}.tips{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px}.tip{border:1px solid #e2dcd0;background:#fffefa;border-radius:12px;padding:12px 13px;color:#655c54;text-align:left;max-width:260px}
+    .composerouter{padding:10px 20px 21px;background:linear-gradient(to bottom,#faf9f600,#faf9f6 15%);flex-shrink:0}.compose{width:min(100%,790px);margin:auto;background:#fffefa;border:1px solid #e2ded7;border-radius:17px;box-shadow:0 3px 18px #493e3112;padding:12px}.compose textarea{width:100%;resize:none;min-height:49px;max-height:180px;line-height:1.55;color:#443f3b;background:transparent;border:0;outline:none;padding:6px;font-size:15px}.composefoot{display:flex;gap:10px;align-items:center;justify-content:space-between}.hint{font-size:11px;color:#9a9289;line-height:1.35}.send{height:36px;min-width:38px;background:#b96849;color:white;border:0;border-radius:11px;font-size:20px;font-weight:700}.send:hover{background:#a75639}.status{font-size:12px;color:#8e6b58;text-align:center;margin:5px 0 0;min-height:15px}
+    dialog{border:1px solid #e3dcd2;background:#fffefa;box-shadow:0 16px 60px #0003;border-radius:18px;width:min(94vw,540px);max-height:90dvh;padding:0;color:#3d3731}dialog::backdrop{background:#1f1b17aa}.modalbody{padding:24px;overflow:auto;max-height:85dvh}dialog h2{font-size:20px;margin:0 0 7px;font-family:Georgia,serif}.muted{font-size:13px;line-height:1.55;color:#837a71}label{font-size:13px;font-weight:650;display:block;margin-top:16px;margin-bottom:6px}.field{width:100%;min-height:43px;padding:10px 11px;border:1px solid #ddd6cb;background:#fff;border-radius:9px;color:#443d37;font-size:14px}input[type=password]{letter-spacing:.4px}.buttons{display:flex;justify-content:flex-end;gap:9px;margin-top:22px}.btn{border:1px solid #d7d0c7;background:#f9f6f1;border-radius:9px;padding:10px 14px;color:#554b42}.btn.strong{background:#b96849;border-color:#b96849;color:white}.warning{background:#fff3e6;border:1px solid #ead5bb;padding:12px 13px;border-radius:10px;color:#856144;font-size:12px;line-height:1.6;margin-top:15px}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:#39332f;color:white;padding:11px 15px;border-radius:10px;z-index:200;box-shadow:0 5px 20px #0003;max-width:90vw;word-break:break-word;text-align:center;font-size:13px;display:none}
+    .overlay{display:none}.closemobile{display:none}
+    @media(max-width:730px){.app{grid-template-columns:minmax(0,1fr)}.side{position:fixed;left:0;top:0;bottom:0;width:min(84vw,320px);transform:translateX(-110%);transition:transform .22s;box-shadow:6px 0 30px #0002}.app.navopen .side{transform:translateX(0)}.overlay{display:block;position:fixed;inset:0;background:#0005;z-index:10}.app:not(.navopen) .overlay{display:none}.menu{display:inline-block!important}.closemobile{display:inline-block;float:right;border:0;background:none;font-size:20px;color:#695f57}.top{height:56px;padding:0 11px}.tag{display:none}.messages{padding:16px 16px 60px}.message{gap:9px;margin:20px 0}.avatar{width:27px;height:27px;flex-basis:27px}.composerouter{padding:8px 10px max(10px,env(safe-area-inset-bottom))}.hint{font-size:10px}.welcome{margin:8vh auto 20px}.welcome h2{font-size:29px}}
+    .devtools{display:flex;align-items:center;gap:8px;padding:0 6px 10px;color:#84756a;font-size:12px;flex-wrap:wrap}
+    .devtools select{border:1px solid #ded7cc;border-radius:9px;background:#fffdfa;color:#55463f;padding:7px 9px;font-size:12px;min-width:0;max-width:100%}
+    .actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+    .smallaction{font-size:11px;border:1px solid #dbd6cd;background:#fffefa;color:#73675d;border-radius:8px;padding:5px 9px}
+    .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .quick button{padding:9px 10px;font-size:12px;border:1px solid #ddd7cb;border-radius:10px;background:#fffefa;color:#665d55}
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="overlay" id="overlay"></div>
+  <aside class="side" aria-label="Conversas">
+    <div class="sidehead">
+      <button class="closemobile" id="closeMenu" aria-label="Fechar menu">✕</button>
+      <div class="brand"><span class="logo">✳</span>Lume <span style="font-weight:400">Chat</span></div>
+      <button class="primary" id="newChat"><span style="font-size:19px">＋</span> Nova conversa</button>
+      <input id="search" class="search" type="search" placeholder="Buscar conversas..." aria-label="Buscar conversas">
+    </div>
+    <div class="navtitle">Suas conversas</div>
+    <div class="chats" id="chatList"></div>
+    <div class="sidefoot">
+      <button class="plain" id="importBtn">⇧ &nbsp; Importar histórico</button>
+      <button class="plain" id="exportBtn">⇩ &nbsp; Salvar backup</button>
+      <button class="plain" id="settingsBtn">⚙ &nbsp; IA local (GGUF)</button>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <button id="menu" class="menu" aria-label="Abrir menu">☰</button>
+      <h1 id="title">Nova conversa</h1>
+      <span class="tag">IA de código · offline · grátis</span>
+      <button id="rename" title="Renomear conversa" aria-label="Renomear conversa">✎</button>
+      <button id="delete" title="Excluir conversa" aria-label="Excluir conversa">♲</button>
+    </header>
+    <div class="scroller" id="scroll"><div class="messages" id="messages"></div></div>
+    <div class="composerouter">
+      <div class="compose">
+        <div class="devtools"><label for="devMode" style="margin:0">Especialidade:</label>
+          <select id="devMode" aria-label="Tipo de projeto">
+            <option value="godot">🎮 Godot 4 · GDScript</option>
+            <option value="android">📱 Android · Kotlin</option>
+            <option value="web">🌐 Web · HTML / JS</option>
+            <option value="python">🐍 Python</option>
+            <option value="general">💻 Programação geral</option>
+          </select>
+        </div>
+        <textarea id="prompt" rows="2" placeholder="Ex.: Crie um controlador 2D para Godot 4 com pulo duplo..." aria-label="Mensagem"></textarea><div class="composefoot"><div class="hint">Histórico sem contador. IA no celular, sem custo por mensagem.</div><button class="send" id="send" aria-label="Enviar mensagem">↑</button></div></div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </div>
+  </main>
+</div>
+<dialog id="settingsDialog"><div class="modalbody">
+  <h2>IA instalada no próprio Android</h2>
+  <p class="muted">Funciona offline e sem chave de API. Instale um modelo GGUF uma vez e converse sem pagar por mensagem.</p>
+  <div class="warning" id="modelStatusText">Verificando se há um modelo instalado...</div>
+  <div class="buttons" style="justify-content:flex-start">
+    <button class="btn strong" type="button" id="pickNativeModel">Selecionar arquivo GGUF</button>
+  </div>
+  <p class="muted"><b>Recomendado para código:</b> Qwen2.5-Coder-1.5B-Instruct, versão Q4_K_M (~986 MB). Se estiver lento ou faltar memória, escolha o modelo 0.5B (~398 MB). Ambos são gratuitos.</p>
+  <div class="buttons" style="justify-content:flex-start;flex-wrap:wrap; margin-top:12px">
+    <button class="btn" id="downloadCoder15" type="button">Baixar modelo 1.5B</button>
+    <button class="btn" id="downloadCoder05" type="button">Baixar modelo leve 0.5B</button>
+  </div>
+  <p class="muted">Os botões abrem a página do modelo no navegador. Depois selecione o arquivo GGUF baixado. O aplicativo não usa internet para responder.</p>
+  <div class="buttons"><button class="btn" id="closeSettings" type="button">Fechar</button></div>
+</div></dialog>
+<dialog id="importDialog"><div class="modalbody">
+  <h2>Importar conversas</h2>
+  <p class="muted">Aceita <b>conversations.json</b> das exportações do Claude e do ChatGPT, além de backups do Lume Chat. Primeiro extraia o arquivo ZIP no ZArchiver.</p>
+  <label for="importFile">Selecione o arquivo JSON</label><input class="field" type="file" id="importFile" accept=".json,application/json">
+  <div class="warning">Importação local: o arquivo é lido neste dispositivo, sem envio para servidores. Conversas de texto são importadas; anexos originais e algumas mensagens multimídia podem não acompanhar a exportação.</div>
+  <div class="buttons"><button class="btn" id="closeImport">Fechar</button><button class="btn strong" id="doImport">Importar</button></div>
+</div></dialog>
+<div class="toast" id="toast" role="alert"></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+let db=null,chats=[],activeId=null,busy=false,importing=false;
+let localModelReady=false;
+const nativePending=new Map();
+function uid(){return globalThis.crypto?.randomUUID?.()||('id-'+Date.now()+'-'+Math.random().toString(36).slice(2));}
+function notify(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(notify.handle);notify.handle=setTimeout(()=>t.style.display='none',4700);}
+function dateStr(x){try{return new Date(x).toLocaleDateString('pt-BR');}catch{return '';}}
+function dbOpen(){return new Promise((resolve,reject)=>{const request=indexedDB.open('lume-chat-db',1);request.onupgradeneeded=()=>{const s=request.result.createObjectStore('chats',{keyPath:'id'});s.createIndex('updatedAt','updatedAt')};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)});}
+function storeRequest(mode,fn){return new Promise((resolve,reject)=>{const tx=db.transaction('chats',mode),os=tx.objectStore('chats');let req;try{req=fn(os)}catch(e){reject(e);return}req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);tx.onerror=()=>reject(tx.error)});}
+async function saveChat(chat){await storeRequest('readwrite',s=>s.put(chat));const idx=chats.findIndex(c=>c.id===chat.id);if(idx>=0)chats[idx]=chat;else chats.push(chat);chats.sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));renderList();}
+async function removeChat(id){await storeRequest('readwrite',s=>s.delete(id));chats=chats.filter(c=>c.id!==id);if(activeId===id)activeId=chats[0]?.id||null;renderAll();}
+function getActive(){return chats.find(c=>c.id===activeId)||null;}
+function newChat(){const chat={id:uid(),title:'Nova conversa',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),messages:[],mode:$('devMode').value||'godot'};return saveChat(chat).then(()=>{activeId=chat.id;renderAll();hideMenu();$('prompt').focus()});}
+function renderList(){const container=$('chatList');container.replaceChildren();const q=$('search').value.toLocaleLowerCase('pt-BR');for(const chat of chats){if(!chat.title.toLocaleLowerCase('pt-BR').includes(q)&&!chat.messages.some(m=>String(m.text||'').toLocaleLowerCase('pt-BR').includes(q)))continue;const b=document.createElement('button');b.type='button';b.className='item'+(chat.id===activeId?' active':'');b.textContent=chat.title||'Sem título';b.title=(chat.title||'Sem título')+' • '+dateStr(chat.updatedAt);b.onclick=()=>{activeId=chat.id;renderAll();hideMenu()};container.append(b);}if(!container.children.length){const p=document.createElement('p');p.className='muted';p.style.padding='10px';p.textContent=chats.length?'Nenhuma conversa encontrada.':'Suas conversas aparecerão aqui.';container.append(p);}}
+function element(tag,cls,txt){const el=document.createElement(tag);if(cls)el.className=cls;if(txt!=null)el.textContent=txt;return el;}
+function renderMessages(){const target=$('messages');target.replaceChildren();const chat=getActive();if(!chat||!chat.messages.length){const welcome=element('section','welcome');welcome.append(element('div','sun','✳'));welcome.append(element('h2',null,'Crie jogos e aplicativos com IA offline.'));welcome.append(element('p',null,'Peça scripts de Godot, projetos Android em Kotlin ou apps web. Importe seus históricos do Claude ou do ChatGPT. Seus dados ficam neste dispositivo.'));const tips=element('div','tips');[['⇧ Importar histórico',()=>{$('importDialog').showModal()}],['⚙ Escolher IA local',()=>openSettings()]].forEach(([label,cb])=>{const b=element('button','tip',label);b.onclick=cb;tips.append(b)});welcome.append(tips);
+  const quick=element('div','quick');
+  const starters=[
+    ['🎮 Criar jogo Godot', 'godot','Crie um protótipo de jogo 2D no Godot 4. Forneça a árvore de nós, os nomes dos scripts, código GDScript pronto para copiar e o passo a passo para testar no Android.'],
+    ['📱 Criar app Android', 'android','Quero criar um aplicativo Android em Kotlin. Comece com um projeto mínimo funcional. Forneça estrutura de pastas, MainActivity, Manifest e Gradle necessários, usando versões compatíveis.'],
+    ['🐛 Corrigir erro', 'general','Ajude a corrigir este erro de programação. Primeiro explique a causa provável e depois mostre o trecho corrigido. Erro e código:\n'],
+    ['🌐 Criar app Web', 'web','Crie uma página HTML/CSS/JavaScript responsiva e executável em um único arquivo, com funções reais (sem respostas simuladas).']
+  ];
+  for(const [label,mode,starter] of starters){const b=element('button',null,label);b.onclick=()=>{$('devMode').value=mode;$('prompt').value=starter;$('prompt').focus()};quick.append(b)}
+  welcome.append(quick);target.append(welcome);return;}
+  for(const msg of chat.messages){const row=element('article','message '+(msg.role==='user'?'user':'assistant'));const avatar=element('div','avatar',msg.role==='user'?'●':'✳');const content=element('div','bubble');content.append(element('div','msghead',msg.role==='user'?'Você':'Assistente'));content.append(document.createTextNode(msg.text||''));if(msg.role==='assistant'){const actions=element('div','actions');const copy=element('button','smallaction','📋 Copiar resposta / código');copy.type='button';copy.onclick=()=>{if(window.LumeNative?.copyText){window.LumeNative.copyText(msg.text||'');notify('Resposta copiada.');}else if(navigator.clipboard){navigator.clipboard.writeText(msg.text||'').then(()=>notify('Resposta copiada.')).catch(()=>notify('Não foi possível copiar.'));}};actions.append(copy);content.append(actions)}row.append(avatar,content);target.append(row)}
+}
+function scrollBottom(){$('scroll').scrollTop=$('scroll').scrollHeight;}
+function renderAll(){const chat=getActive();if(chat)$('devMode').value=chat.mode||'godot';$('title').textContent=chat?.title||'Nova conversa';$('rename').disabled=!chat;$('delete').disabled=!chat;renderList();renderMessages();requestAnimationFrame(scrollBottom);}
+function hideMenu(){$('app').classList.remove('navopen');}
+function openSettings(){$('settingsDialog').showModal(); window.LumeNative?.modelStatus();}
+function openImport(){$('importFile').value='';$('importDialog').showModal();}
+function normalizedText(v){if(typeof v==='string')return v;if(typeof v==='number')return String(v);if(Array.isArray(v))return v.map(normalizedText).filter(Boolean).join('\n');if(v&&typeof v==='object'){if(typeof v.text==='string')return v.text;if(typeof v.content==='string')return v.content;if(Array.isArray(v.content))return normalizedText(v.content);if(Array.isArray(v.parts))return normalizedText(v.parts);if(v.type==='image'||v.content_type==='image_asset_pointer')return '[Imagem não transferida]';}return '';}
+function normalizeRole(role){role=String(role||'').toLowerCase();if(['user','human','prompt'].includes(role))return 'user';if(['assistant','ai','model'].includes(role))return 'assistant';return null;}
+function normMessages(input){return (Array.isArray(input)?input:[]).map(m=>({role:normalizeRole(m.role||m.sender||m.author?.role),text:normalizedText(m.text||m.content||m.parts||m.message),createdAt:m.createdAt||m.created_at||null})).filter(m=>m.role&&m.text.trim());}
+function parseClaude(conv){return {sourceId:conv.uuid||conv.id||null,title:conv.name||conv.title||'Conversa do Claude',createdAt:conv.created_at||new Date().toISOString(),updatedAt:conv.updated_at||new Date().toISOString(),messages:normMessages(conv.chat_messages||conv.messages||[]) };}
+function parseGPT(conv){const map=conv.mapping||{},nodes=[];let curr=conv.current_node;const seen=new Set();if(curr&&map[curr]){while(curr&&map[curr]&&!seen.has(curr)){seen.add(curr);nodes.unshift(map[curr]);curr=map[curr].parent;}}else{nodes.push(...Object.values(map).sort((a,b)=>(a.message?.create_time||0)-(b.message?.create_time||0)));}
+  const messages=[];for(const n of nodes){const m=n.message;if(!m)continue;const role=normalizeRole(m.author?.role);if(!role)continue;const content=normalizedText(m.content);if(content.trim())messages.push({role,text:content,createdAt:m.create_time?new Date(m.create_time*1000).toISOString():null});}
+  return {sourceId:conv.id||null,title:conv.title||'Conversa do ChatGPT',createdAt:conv.create_time?new Date(conv.create_time*1000).toISOString():new Date().toISOString(),updatedAt:conv.update_time?new Date(conv.update_time*1000).toISOString():new Date().toISOString(),messages};}
+function parseImport(json){let data=json;if(json&&Array.isArray(json.conversations))data=json.conversations;else if(json&&Array.isArray(json.chats))data=json.chats;else if(json&&Array.isArray(json.data?.conversations))data=json.data.conversations;else if(json&&Array.isArray(json.items))data=json.items;else if(!Array.isArray(json))data=[json];if(!Array.isArray(data))throw Error('Este JSON não contém uma lista reconhecível de conversas.');
+  const parsed=[];for(const c of data){if(!c||typeof c!=='object')continue;let out;if(c.mapping)out=parseGPT(c);else if(Array.isArray(c.chat_messages))out=parseClaude(c);else if(Array.isArray(c.messages)){out=parseClaude(c);out.messages=normMessages(c.messages);}else continue;
+    if(!out.messages.length)continue;out.title=String(out.title||'Conversa importada').slice(0,170);out.messages=out.messages.slice(0,50000);out.id=uid();out.origin=out.sourceId||null;delete out.sourceId;out.updatedAt=String(out.updatedAt);out.createdAt=String(out.createdAt);parsed.push(out);
+  }return parsed;}
+function download(name,content){if(!window.LumeNative)throw Error('Abra o aplicativo Android para salvar backup.');window.LumeNative.exportBackup(content,name);}
+function recentHistory(messages){const filtered=messages.filter(m=>['user','assistant'].includes(m.role)&&m.text.trim());const recent=[];let chars=0;for(let i=filtered.length-1;i>=0;i--){const m=filtered[i];if(recent.length>=45||chars+m.text.length>110000)break;recent.unshift({role:m.role,content:m.text});chars+=m.text.length;}while(recent[0]?.role==='assistant')recent.shift();return recent;}
+async function callAI(history, chatId, mode){
+  if(!window.LumeNative)throw Error('Para respostas locais, abra o APK do Lume Chat.');
+  return new Promise((resolve,reject)=>{
+    const id=uid();nativePending.set(id,{resolve,reject});
+    try{window.LumeNative.generate(id,chatId,mode,JSON.stringify(history.slice(-11)));}
+    catch(e){nativePending.delete(id);reject(e);}
+  });
+}
+window.lumeNativeResponse=(id,ok,text)=>{const pending=nativePending.get(id);if(!pending)return;nativePending.delete(id);if(ok)pending.resolve(text);else pending.reject(new Error(text));};
+window.lumeNativeToast=(text)=>notify(text);
+window.lumeNativeModelStatus=(ready,text)=>{localModelReady=ready;$('modelStatusText').textContent=text;};
+async function sendMessage(){const text=$('prompt').value.trim();if(!text||busy)return;if(!localModelReady){openSettings();notify('Selecione o arquivo do modelo GGUF primeiro.');return;}
+  busy=true;$('send').disabled=true;$('status').textContent='Aguardando resposta da IA...';const previous=activeId;let chat=getActive();try{if(!chat){await newChat();chat=getActive();}chat.messages.push({role:'user',text,createdAt:new Date().toISOString()});if(chat.title==='Nova conversa')chat.title=text.replace(/\s+/g,' ').slice(0,54)+(text.length>54?'…':'');chat.updatedAt=new Date().toISOString();await saveChat(chat);$('prompt').value='';renderAll();const answer=await callAI(recentHistory(chat.messages),chat.id,chat.mode||'godot');
+    chat.messages.push({role:'assistant',text:answer,createdAt:new Date().toISOString()});chat.updatedAt=new Date().toISOString();await saveChat(chat);if(activeId===chat.id)renderAll();
+  }catch(e){notify(e.message||'Falha na conexão.');$('status').textContent='Não foi possível obter a resposta. A mensagem foi salva: você pode tentar novamente.';}finally{busy=false;$('send').disabled=false;if(!$('status').textContent.startsWith('Não foi'))$('status').textContent='';if(previous===activeId||!previous)$('prompt').focus();}}
+async function retryPending(){const chat=getActive();if(!chat||busy||chat.messages.at(-1)?.role!=='user')return;busy=true;$('send').disabled=true;$('status').textContent='Tentando novamente...';try{const answer=await callAI(recentHistory(chat.messages),chat.id,chat.mode||'godot');chat.messages.push({role:'assistant',text:answer,createdAt:new Date().toISOString()});chat.updatedAt=new Date().toISOString();await saveChat(chat);renderAll();$('status').textContent='';}catch(e){notify(e.message);$('status').textContent='Não foi possível obter a resposta.';}finally{busy=false;$('send').disabled=false;}}
+async function start(){try{db=await dbOpen();chats=await storeRequest('readonly',s=>s.getAll());chats.sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));activeId=chats[0]?.id||null;renderAll();}catch(e){notify('O navegador não permitiu abrir o armazenamento local: '+e.message);$('status').textContent='Erro de armazenamento. Tente abrir em uma aba normal do Chrome.';}}
+$('newChat').onclick=()=>newChat().catch(e=>notify(e.message));$('search').oninput=renderList;
+$('devMode').onchange=async()=>{const chat=getActive();if(chat){if(busy){$('devMode').value=chat.mode||'godot';notify('Aguarde a resposta antes de mudar o modo.');return;}chat.mode=$('devMode').value;await saveChat(chat)}};
+$('menu').onclick=()=>$('app').classList.add('navopen');$('overlay').onclick=hideMenu;$('closeMenu').onclick=hideMenu;
+$('settingsBtn').onclick=()=>{hideMenu();openSettings();};$('pickNativeModel').onclick=()=>window.LumeNative?.chooseModel();$('closeSettings').onclick=()=>$('settingsDialog').close();
+$('downloadCoder15').onclick=()=>window.LumeNative?.openModelPage('https://huggingface.co/bartowski/Qwen2.5-Coder-1.5B-Instruct-GGUF');
+$('downloadCoder05').onclick=()=>window.LumeNative?.openModelPage('https://huggingface.co/bartowski/Qwen2.5-Coder-0.5B-Instruct-GGUF');
+$('importBtn').onclick=()=>{hideMenu();openImport();};$('closeImport').onclick=()=>$('importDialog').close();
+$('doImport').onclick=async()=>{if(importing)return;const file=$('importFile').files?.[0];if(!file){notify('Selecione o JSON extraído da exportação.');return;}importing=true;$('doImport').disabled=true;try{const data=JSON.parse(await file.text());const found=parseImport(data);if(!found.length)throw Error('Não encontrei mensagens de texto neste arquivo.');for(const c of found)await saveChat(c);activeId=found[0].id;renderAll();$('importDialog').close();notify(found.length+' conversa(s) importada(s) com sucesso!');}catch(e){notify('Falha ao importar: '+(e.message||e));}finally{importing=false;$('doImport').disabled=false;}};
+$('exportBtn').onclick=()=>{hideMenu();download('lume-chat-backup-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify({format:'lume-chat-v1',exportedAt:new Date().toISOString(),chats},null,2));notify('Backup criado. Guarde o arquivo em local seguro.');};
+$('rename').onclick=async()=>{const chat=getActive();if(!chat)return;const newTitle=prompt('Novo nome da conversa:',chat.title);if(!newTitle?.trim())return;chat.title=newTitle.trim().slice(0,170);await saveChat(chat);renderAll();};
+$('delete').onclick=async()=>{const chat=getActive();if(!chat)return;if(!confirm('Excluir "'+chat.title+'" do aparelho? Faça backup antes, se quiser guardar.'))return;await removeChat(chat.id);notify('Conversa excluída.');};
+$('send').onclick=()=>{const chat=getActive();if(!$('prompt').value.trim()&&chat?.messages.at(-1)?.role==='user')retryPending();else sendMessage();};
+$('prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();sendMessage();}});
+$('prompt').addEventListener('input',()=>{const chat=getActive();$('send').title=!$('prompt').value.trim()&&chat?.messages.at(-1)?.role==='user'?'Tentar última resposta novamente':'Enviar';$('send').textContent=!$('prompt').value.trim()&&chat?.messages.at(-1)?.role==='user'?'↻':'↑';});
+if(location.protocol==='https:'&&'serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{});}start();
+</script>
+</body>
+</html>
