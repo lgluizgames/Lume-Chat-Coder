@@ -22,7 +22,7 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Instalar Android SDK
-         run: echo "Usando Android SDK preinstalado"
+        run: echo "Usando Android SDK preinstalado"
       - name: Instalar SDK e ferramentas nativas
         run: |
           sdkmanager --install "platforms;android-36" "ndk;29.0.13113456" "cmake;3.31.6"
